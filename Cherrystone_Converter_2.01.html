@@ -25,7 +25,6 @@
                 border-color: black;
             }
             #countryName{
-                margin-left: 10px;
                 width: 100px;
                 border-width: 2px;
                 border-color: black;
@@ -33,12 +32,12 @@
             #convertButton{
                 background-color: rgb(55, 171, 224);
                 height: 50px;
+                width: 100px;
                 margin-top: 160px;
                 border-radius: 15px;
             }
             #copyTextButton{
                 background-color: rgb(53, 231, 97);
-                margin-left: 11px;
                 height: 40px;
                 border-radius: 15px;
                 width: 100px;
@@ -47,13 +46,14 @@
             #clearTextButton{
                 background-color: rgb(233, 72, 43);
                 height: 30px;
-                margin-left: 7px;
-                margin-top: 100px;
+                width: 100px;
+                margin-top: 80px;
                 border-radius: 15px;
             }
             #myDiv{
                 float: left;
                 margin-top: 10px;
+                align-items: center;
             }
             #myAddr{
                 margin-left: 10px;
@@ -70,7 +70,8 @@
             #copyAddress{
                 background-color: rgb(55, 171, 224);
                 height: 30px;
-                margin-left: 27px;
+                width: 100px;
+                margin-left: 10px;
                 margin-top: 8px;
                 border-radius: 15px;
             }
@@ -82,25 +83,26 @@
     </head>
 
     <body>
-            <label id="mainLabel">Конвертер .kml / .geojson / google map address в формат Аналитики</label>
+            <label id="mainLabel">Converter .kml / .geojson / google map address to Analytics format</label>
             <p></p>
-            <textarea id="initialText" placeholder="Начальные данные" onchange="processFiles(this.files)"></textarea></textarea>          
+            <textarea id="initialText" placeholder="Initial Data" onchange="processFiles(this.files)"></textarea></textarea>          
             <div id="myDiv">
+            <label for="countryName" style="margin-left: 20px">Country:</label><br/>
             <select id="countryName" name="countryName">
                 <option value="USA">USA</option>
             </select>
             <p></p>
-            <button id="convertButton" onclick="printTextToResult()">Сделать хорошо</button>
+            <button id="convertButton" onclick="printTextToResult()">To do well</button>
             <p></p>
-            <button id="copyTextButton" onclick="copyResultAndGoToAnalitics()">Перейти в "Complex tasks"</button>
+            <button id="copyTextButton" onclick="copyResultAndGoToAnalitics()">Go to "Complex tasks"</button>
             <p></p>
-            <button id="clearTextButton" onclick="clearAllText()">Начать заново</button>
+            <button id="clearTextButton" onclick="clearAllText()">Start again</button>
             </div>
-            <textarea name="resultText" id="resultText" placeholder="Результат"></textarea>
+            <textarea name="resultText" id="resultText" placeholder="Address result for Analytics"></textarea>
             <p></p>
             <div id="myAddr">
-            <textarea name="resultAddress" id="resultAddress" placeholder="Результат"></textarea>
-            <button id="copyAddress" onclick="copyAddress()">Копировать</button>
+            <textarea name="resultAddress" id="resultAddress" placeholder="Address result for Jira"></textarea>
+            <button id="copyAddress" onclick="copyAddress()">Copy</button>
             </div>
     </body>
     <!-- <footer>
