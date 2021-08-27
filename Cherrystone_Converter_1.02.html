@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Cherrystone_Converter</title>
+        <!-- Written by Mykhailo Semernin -->
+    <style>
+            #mainLabel{
+                margin-left: 220px;
+            }
+            #initialText{
+                background-color: #ddd;
+                margin: 10px;
+                float: left;
+                height: 450px;
+                width: 360px;
+            }
+            #resultText{
+                background-color: #eee;
+                margin: 10px;
+                float: left;
+                height: 450px;
+                width: 360px;
+            }
+            #convertButton{
+                background-color: rgb(55, 171, 224);
+                height: 60px;
+                border-radius: 15px;
+            }
+            #copyTextButton{
+                background-color: rgb(53, 231, 97);
+                margin-left: 11px;
+                height: 40px;
+                border-radius: 15px;
+                width: 100px;
+                height: 50px;
+            }
+            #clearTextButton{
+                background-color: rgb(233, 72, 43);
+                height: 30px;
+                margin-left: 7px;
+                margin-top: 70px;
+                border-radius: 15px;
+            }
+            #myDiv{
+                float: left;
+                margin-top: 200px;
+            }
+            #myAddr{
+                margin-left: 10px;
+                height: 20px;
+                width: 500px;
+            }
+            #resultAddress{
+                background-color: #eee;
+                float: left;
+                height: 40px;
+                width: 360px;
+            }
+            #copyAddress{
+                background-color: rgb(55, 171, 224);
+                height: 30px;
+                margin-left: 27px;
+                margin-top: 8px;
+                border-radius: 15px;
+            }
+            /* #myfooter{
+                float: left;
+                margin-bottom: 10px;
+            } */
+    </style>
+    </head>
+
+    <body>
+            <label id="mainLabel">Конвертер .kml / .geojson / google map address в формат Аналитики</label>
+            <p></p>
+            <textarea id="initialText" placeholder="Начальные данные" onchange="processFiles(this.files)"></textarea></textarea>
+            <div id="myDiv">
+            <button id="convertButton" onclick="printTextToResult()">Сделать хорошо</button>
+            <p></p>
+            <button id="copyTextButton" onclick="copyResultAndGoToAnalitics()">Перейти в "Complex tasks"</button>
+            <p></p>
+            <button id="clearTextButton" onclick="clearAllText()">Начать заново</button>
+            </div>
+            <textarea name="resultText" id="resultText" placeholder="Результат"></textarea>
+            <p></p>
+            <div id="myAddr">
+            <textarea name="resultAddress" id="resultAddress" placeholder="Результат"></textarea>
+            <button id="copyAddress" onclick="copyAddress()">Копировать</button>
+            </div>
+    </body>
+    <!-- <footer>
+        <div id="myfooter">
+            <label>MV</label>
+        </div>
+    </footer> -->
+
+        <!-- Drag and Drop - start -->
+        <script>
+            window.onload = function() {
+            initialText = document.getElementById("initialText");
+            initialText.ondragenter = ignoreDrag;
+            initialText.ondragover = ignoreDrag;
+            initialText.ondrop = drop;
+          }
+          function ignoreDrag(e) {
+            // Обеспечиваем, чтобы никто другой не получил это событие, 
+            // т.к. мы выполняем операцию перетаскивания
+            e.stopPropagation();
+            e.preventDefault();
+            }
+            function drop(e) {
+            // Аннулируем это событие для всех других
+            e.stopPropagation();
+            e.preventDefault();
+        
+            // Получаем перемещенные файлы
+            var data = e.dataTransfer;
+            var files = data.files;
+            
+            // Передаем полученный файл функции для обработки файлов
+            processFiles(files);
+            }
+            function processFiles(files) {
+            var file = files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                // Выводим изображение на initialText
+                var output = document.getElementById("initialText");   
+                output.textContent = e.target.result;
+            };
+            // Начинаем считывать текстовый файл
+            reader.readAsText(file);
+            }
+        </script> 
+        <!-- Drag and Drop - end -->
+
+        <script>
+            function printTextToResult() {
+            var initText = document.querySelector("textarea").value;
+            var output = document.getElementById("resultText");
+            var output2 = document.getElementById("resultAddress");
+
+            isAddress = false;
+                //// для .geojson:
+            if (initText.includes("\"coordinates\"")){    
+            initText = initText.replace(/\s+/g, ''); //удалить все пробелы    g-везде(все вхождения)
+            initText = initText.replace(/,0.0|,0/g, ''); // удалить ,0 и ,0.0   g-везде(все вхождения)
+            var firstPos = initText.indexOf("[[[");
+            var lastPos = initText.lastIndexOf("]]]") + 3;
+            var cuttedText = initText.substring(firstPos, lastPos);
+                if (initText.includes("\"Polygon\"")){
+                    output.innerHTML = "{'coordinates': " + cuttedText + ",'type': 'Polygon'}";
+                }
+                else if (initText.includes("\"MultiPolygon\"")){
+                    output.innerHTML = "{'coordinates': " + cuttedText + ",'type': 'MultiPolygon'}";
+                }
+                else{ 
+                alert("Произошло что-то непонятное с .GeoJSON :/\nОбратитесь к Мише С.")
+                }
+            }
+                //// для .kml:
+            else if (initText.includes("<coordinates>")){   
+            var firstPos = initText.indexOf("<coordinates>") + 13;
+            var lastPos = initText.lastIndexOf("</coordinates>");
+            var cuttedText = initText.substring(firstPos, lastPos);
+
+            if (cuttedText.includes(",0.0")|cuttedText.includes(",0")){
+                cuttedText = cuttedText.replace(/\s+/g, ""); //удалить все пробелы    g-везде(все вхождения)
+                cuttedText = cuttedText.replace(/,0.0|,0/g, "],["); // заменить ,0 и ,0.0    g-везде(все вхождения)
+            }
+            else {
+                cuttedText = cuttedText.replace(/\s+/g, "],["); //заменить все пробелы    g-везде(все вхождения)
+            }
+            
+                if (initText.includes("<Polygon>")){
+            cuttedText = "{'coordinates': [[[" + cuttedText + "]]],'type': 'Polygon'}";
+                }
+                else if (initText.includes("<MultiPolygon>")){
+            cuttedText = "{'coordinates': [[[" + cuttedText + "]]],'type': 'MultiPolygon'}";
+                }
+                else{ 
+                alert("Произошло что-то непонятное c .KML :/\nОбратитесь к Мише С.")
+                }
+            cuttedText = cuttedText.replace(",[]","");
+            output.innerHTML = cuttedText;
+            }
+                //// для адреса:
+            else if (initText.length < 150){
+                try {
+                isAddress = true;
+                var addresArray = initText.split(",");
+                var street = addresArray[0].trim();
+                var city = addresArray[1].trim();
+                var stateAndPostal = addresArray[2].trim();
+                var state = stateAndPostal.replace(/[^a-zа-я]+/gi, "");
+                var postal = stateAndPostal.replace(/[^\d]+/g, "");
+                var cc = addresArray[3].replace(/[^A-ZА-Я]+/g, "").substring(0,2);
+                if (cc==="US"){
+                    country="United States"
+                }
+                else{ 
+                alert("Страна не United States")
+                return;
+            }
+                output.innerHTML = "{'cc': '" + cc + "',\n'city': '" + city + "',\n'country': '" + country + "',\n'formatted_address': '" + street + ", " + city + ", " + state + ", " + country + "',\n'formatted_city': '" + city + ", " + state + ", " + country + "',\n'postal_code': '" + postal + "',\n'state': '" + state + "',\n'street_address': '" + street + "'}";
+                output2.innerHTML = street + ", " + city + ", " + postal + ", " + state;
+                } catch {
+                    alert("Неверный формат :(\nОбратитесь к Мише С.")
+                }
+            }
+            else{ 
+                alert("Что-то пошло не так :(\nОбратитесь к Мише С.")
+            }
+            copyResult();
+            }
+
+            function copyResultAndGoToAnalitics() {
+            if (isAddress == false) {
+            var newWin = window.open("https://analytics.placer.team/admin/guru/complextasks/add/");
+            }
+            else{
+            var newWin = window.open("https://analytics.placer.team/admin/guru/complextasks/");
+            }
+            }    
+            
+            function clearAllText() {
+            window.location.reload();
+            } 
+
+            function copyResult() {
+            var copyText = document.getElementById("resultText");
+            copyText.select();
+            document.execCommand("copy");  
+            }
+
+            function copyAddress() {
+             var copiedAddress = document.getElementById("resultAddress");
+             copiedAddress.select();
+             document.execCommand("copy");  
+            }
+        </script>
+</html>
