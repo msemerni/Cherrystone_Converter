@@ -173,7 +173,7 @@
                     output.innerHTML = "{'coordinates': " + cuttedText + ",'type': 'MultiPolygon'}";
                 }
                 else{ 
-                alert("Произошло что-то непонятное с .GeoJSON :/\nОбратитесь к Мише С.")
+                alert("Something incomprehensible has happened with .GeoJSON :/\nContact Misha S.")
                 }
             }
                 //// для .kml:
@@ -197,7 +197,7 @@
             cuttedText = "{'coordinates': [[[" + cuttedText + "]]],'type': 'MultiPolygon'}";
                 }
                 else{ 
-                alert("Произошло что-то непонятное c .KML :/\nОбратитесь к Мише С.")
+                alert("Something incomprehensible has happened with .KML :/\nContact Misha S.")
                 }
             cuttedText = cuttedText.replace(",[]","");
             output.innerHTML = cuttedText;
@@ -218,17 +218,17 @@
                     country="United States"
                 }
                 else{ 
-                alert("Страна не United States")
+                alert("Not United States")
                 return;
             }
                 output.innerHTML = "{'cc': '" + cc + "',\n'city': '" + city + "',\n'country': '" + country + "',\n'formatted_address': '" + street + ", " + city + ", " + state + ", " + country + "',\n'formatted_city': '" + city + ", " + state + ", " + country + "',\n'postal_code': '" + postal + "',\n'state': '" + state + "',\n'street_address': '" + street + "'}";
                 output2.innerHTML = street + ", " + city + ", " + postal + ", " + state;
                 } catch {
-                    alert("Неверный формат :(\nОбратитесь к Мише С.")
+                    alert("Wrong format :(\nContact Misha S.")
                 }
             }
             else{ 
-                alert("Что-то пошло не так :(\nОбратитесь к Мише С.")
+                alert("Something went wrong :(\nContact Misha S.")
             }
             copyResult();
             }
