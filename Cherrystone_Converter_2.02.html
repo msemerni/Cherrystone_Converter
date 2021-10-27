@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -112,14 +112,14 @@
         .headerClass {
             height: 70px;
             /* background: rgb(55, 171, 224); */
-            background: url(logo.png) no-repeat, #939394;
+            background: url(https://drive.google.com/uc?id=1UxxtPV78aSt8gTsbRPgccCp0UWRjZaZz) no-repeat, #939394;
             text-align: center;
         }
     </style>
     <!-- <script src="main.js"></script> -->
 </head>
 
-<body onload="currYear()" onclick="currYear()">
+<body>
     <header>
         <div class="headerClass">
             <label id="mainLabel">Converter .kml / .geojson / google map address to Analytics format</label>
@@ -128,9 +128,7 @@
     <main>
         <div class=mainDiv>
             <div>
-                <div id="welcome" style="background: red; border-style: solid;">Year: </div> <!-- DELETE -->
-                <textarea id="initialText" placeholder="Initial Data"
-                    onchange="processFiles(this.files)"></textarea></textarea>
+                <textarea id="initialText" placeholder="Initial Data" onchange="processFiles(this.files)"></textarea>
                 <div id="myDiv">
                     <label for="countryName" style="margin-left: 20px; color: white;">Country:</label><br />
                     <select id="countryName" name="countryName">
@@ -143,7 +141,8 @@
                     <p></p>
                     <button id="clearTextButton" onclick="clearAllText()">Start again</button>
                 </div>
-                <textarea name="resultText" id="resultText" placeholder="Address result for Analytics"></textarea>
+                <textarea name="resultText" id="resultText"
+                    placeholder="Address/geojson result for Analytics"></textarea>
                 <p></p>
                 <div id="myAddr">
                     <textarea name="resultAddress" id="resultAddress" placeholder="Address result for Jira"></textarea>
@@ -154,11 +153,10 @@
     </main>
     <footer>
         <div id="myfooter">
-            <label>&copy Mykhailo Semernin, 2021-<script>document.write(new Date().getFullYear())</script></label>
+            <label id="copyRight">&copy; Mykhailo Semernin, 2021-</label>
         </div>
     </footer>
 </body>
-
 
 <!-- Drag and Drop - start -->
 <script>
@@ -167,6 +165,7 @@
         initialText.ondragenter = ignoreDrag;
         initialText.ondragover = ignoreDrag;
         initialText.ondrop = drop;
+        currYear();
     }
     function ignoreDrag(e) {
         // Обеспечиваем, чтобы никто другой не получил это событие, 
@@ -198,10 +197,9 @@
         // Начинаем считывать текстовый файл
         reader.readAsText(file);
     }
-</script>
-<!-- Drag and Drop - end -->
 
-<script>
+    // <!-- Drag and Drop - end -->
+
     function printTextToResult() {
         var initText = document.querySelector("textarea").value;
         var output = document.getElementById("resultText");
@@ -307,8 +305,8 @@
         document.execCommand("copy");
     }
 
-    function currYear() {            // DELETE   
-        document.getElementById('welcome').innerHTML += new Date().getFullYear();
+    function currYear() {
+        document.getElementById('copyRight').innerHTML += new Date().getFullYear();
     }
 </script>
 
