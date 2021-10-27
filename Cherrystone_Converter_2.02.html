@@ -116,9 +116,10 @@
             text-align: center;
         }
     </style>
+    <!-- <script src="main.js"></script> -->
 </head>
 
-<body>
+<body onload="currYear()" onclick="currYear()">
     <header>
         <div class="headerClass">
             <label id="mainLabel">Converter .kml / .geojson / google map address to Analytics format</label>
@@ -127,7 +128,7 @@
     <main>
         <div class=mainDiv>
             <div>
-                <div id="welcome" style="background: red; border-style: solid;" onload="currYear()" onclick="currYear()">Year: </div> <!-- DELETE -->
+                <div id="welcome" style="background: red; border-style: solid;">Year: </div> <!-- DELETE -->
                 <textarea id="initialText" placeholder="Initial Data"
                     onchange="processFiles(this.files)"></textarea></textarea>
                 <div id="myDiv">
@@ -309,12 +310,6 @@
     function currYear() {            // DELETE   
         document.getElementById('welcome').innerHTML += new Date().getFullYear();
     }
-
-
-    // function getCurrentYear(){
-    //     var currYear=Date().getFullYear();
-    //     return currYear;
-    // }
 </script>
 
 </html>
