@@ -8,8 +8,8 @@
     <style>
         #mainLabel {
             /* text-align: center; */
-            color: white;
-
+            color: #17638e;
+            font-size: 20px;
         }
 
         #initialText {
@@ -31,6 +31,12 @@
         }
 
         #countryName {
+            width: 100px;
+            border-width: 2px;
+            border-color: black;
+        }
+
+        #addressNewOld {
             width: 100px;
             border-width: 2px;
             border-color: black;
@@ -113,8 +119,9 @@
             height: 70px;
             /* background: rgb(55, 171, 224); */
             background: url() no-repeat, #939394;
-            background: url(https://drive.google.com/uc?id=1Ql17uypNqmG2tqQA3f139FYI1943DpKH) no-repeat, #939394;
-            background: url(logo.png) no-repeat, #939394;
+            background: url(https://i.ibb.co/7XmPsjx/logo.png) no-repeat, #939394;
+            background: url(https://i.postimg.cc/RZPXqJVn/logo.png) no-repeat, #939394;
+            /* background: url(logo.png) no-repeat, #939394; */
             text-align: center;
         }
     </style>
@@ -135,6 +142,12 @@
                     <label for="countryName" style="margin-left: 20px; color: white;">Country:</label><br />
                     <select id="countryName" name="countryName">
                         <option value="USA">USA</option>
+                    </select>
+                    <br>
+                    <label for="addressNewOld" style="margin-left: 20px; color: white;">Format:</label><br />
+                    <select id="addressNewOld" name="addressNewOld">
+                        <option value="New">New</option>
+                        <option value="Old">Old</option>
                     </select>
                     <p></p>
                     <button id="convertButton" onclick="printTextToResult()">To do well</button>
@@ -271,7 +284,14 @@
                     return;
                 }
                 output.innerHTML = "{'cc': '" + cc + "',\n'city': '" + city + "',\n'country': '" + country + "',\n'formatted_address': '" + street + ", " + city + ", " + state + ", " + country + "',\n'formatted_city': '" + city + ", " + state + ", " + country + "',\n'postal_code': '" + postal + "',\n'state': '" + state + "',\n'street_address': '" + street + "'}";
-                output2.innerHTML = street + ", " + city + ", " + state + " " + postal;
+
+                if (addressNewOld.value === "New") {
+                    output2.innerHTML = street + ", " + city + ", " + state + " " + postal;
+                }
+                if (addressNewOld.value === "Old") {
+                    output2.innerHTML = street + ", " + city + ", " + postal + ", "  + state;
+                }
+                
             } catch {
                 alert("Wrong format :(\nContact Misha S.")
             }
@@ -292,6 +312,9 @@
     }
 
     function clearAllText() {
+        // document.getElementById("initialText").innerHTML = "";
+        // document.getElementById("resultText").innerHTML = "";
+        // document.getElementById("resultAddress").innerHTML = "";
         window.location.reload();
     }
 
