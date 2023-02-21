@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Cherrystone_Converter</title>
+  <!-- Written by Mykhailo Semernin -->
+  <style>
+    body {
+      margin: 0;
+      background-color: #403e3e
+    }
+
+    #appName {
+      color: #006990;
+      font-size: 38px;
+      white-space: nowrap;
+      padding: 5px;
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    .appNameVersion {
+      font-size: 12px;
+    }
+
+    .headerDiv {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: url() no-repeat, #8E8E8F;
+      border-radius: 10px;
+    }
+
+    .headerDiv span {
+      color: #c94040;
+    }
+
+    .worknestLogo {
+      height: 70px;
+      width: 230px;
+      /* background: rgb(55, 171, 224); */
+      background: url(https://i.ibb.co/7XmPsjx/logo.png) no-repeat, #939394;
+      background: url(https://i.postimg.cc/RZPXqJVn/logo.png) no-repeat, #939394;
+      /* background: url(logo.png) no-repeat, #939394; */
+      text-align: center;
+      border-radius: 10px;
+      padding: 1px;
+    }
+
+    #mainLabel {
+      color: #b8bbbd;
+      font-size: 20px;
+      padding: 5px;
+      text-align: center;
+    }
+
+    #initialText,
+    #resultText,
+    #resultAddress,
+    #resultBldgAt {
+      background-color: #ddd;
+      border-radius: 7px;
+    }
+
+    #initialText {
+      margin: 10px;
+      float: left;
+      height: 420px;
+      width: 360px;
+      border-color: black;
+    }
+
+    #resultText {
+      margin: 10px;
+      float: left;
+      height: 420px;
+      width: 360px;
+      border-color: black;
+    }
+
+    #countryName,
+    #addressNewOld {
+      width: 100px;
+      border-color: black;
+    }
+
+    button {
+      color: #1a1a1a;
+      border: none;
+    }
+
+    button:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+      color: #000;
+    }
+
+    #convertButton {
+      background-color: #53bb4b;
+      font-size: 15px;
+      height: 50px;
+      width: 100px;
+      margin-top: 85px;
+      border-radius: 10px;
+    }
+
+    #_24on7Button {
+      background-color: #53bb4b;
+      font-size: 15px;
+      height: 20px;
+      width: 50px;
+      border-radius: 7px;
+      margin-left: 25px;
+    }
+
+    #copyTextButton {
+      background-color: #afb785;
+      border-radius: 10px;
+      width: 100px;
+      height: 30px;
+      font-size: 10px;
+      margin-top: 15px;
+    }
+
+    #clearTextButton {
+      background-color: #db6550;
+      font-size: 15px;
+      height: 50px;
+      width: 100px;
+      margin-top: 35px;
+      border-radius: 10px;
+    }
+
+    #myDiv {
+      float: left;
+      margin-top: 10px;
+      align-items: center;
+    }
+
+    #myAddr {
+      margin-left: 10px;
+      height: 20px;
+      width: 500px;
+    }
+
+    #resultAddress {
+      background-color: #eee;
+      float: left;
+      height: 40px;
+      width: 360px;
+      border-color: black;
+      margin-bottom: 5px;
+    }
+
+    #resultBldgAt {
+      background-color: #eee;
+      float: left;
+      margin: 10px 15px, 20px, 25px;
+      height: 40px;
+      width: 360px;
+      border-color: black;
+    }
+
+    #copyAddress {
+      background-color: rgb(55, 171, 224);
+      height: 30px;
+      width: 100px;
+      margin-left: 10px;
+      margin-top: 8px;
+      border-radius: 10px;
+    }
+
+    #copyBldgAt {
+      background-color: rgb(55, 171, 224);
+      height: 30px;
+      width: 100px;
+      margin-left: 10px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    #myfooter {
+      background-color: #939394;
+      text-align: right;
+      font-size: 12px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .mainDiv {
+      width: 880px;
+      height: 525px;
+      margin: 0 auto;
+    }
+
+  </style>
+  <!-- <script src="main.js"></script> -->
+</head>
+
+<body>
+  <header>
+    <div class="headerDiv">
+        <label id="appName">Cherry<span>S</span>tone<sup class="appNameVersion"> 5.0</sup></label>
+        <label id="mainLabel" title="Your Ads can be here">
+          converter .kml / .geojson / google map address / opening hours
+        </label>
+        <div class="worknestLogo"></div>
+    </div>
+    
+  </header>
+  <main>
+    <div class=mainDiv>
+      <div>
+        <textarea id="initialText" placeholder="Initial Data" onchange="processFiles(this.files)"></textarea>
+        <div id="myDiv">
+          <label for="countryName" style="margin-left: 20px; color: white;">Country:</label><br />
+          <select id="countryName" name="countryName">
+            <option value="USA">USA</option>
+          </select>
+          <br>
+          <label for="addressNewOld" style="margin-left: 20px; color: white;">Format:</label><br />
+          <select id="addressNewOld" name="addressNewOld">
+            <option value="New">New</option>
+            <option value="Old">Old</option>
+          </select>
+          <p></p>
+          <button id="convertButton" onclick="printTextToResult()">To do well</button>
+          <p></p>
+          <button id="_24on7Button" onclick="copy24on7()">24/7</button>
+          <p></p>
+          <button id="copyTextButton" onclick="copyResultAndGoToAnalitics()">Go to "Complex tasks"</button>
+          <p></p>
+          <button id="clearTextButton" onclick="clearAllText()">Start again</button>
+        </div>
+        <textarea name="resultText" id="resultText" placeholder="Address / geojson / hours result"></textarea>
+        <p></p>
+        <div id="myAddr">
+          <textarea name="resultAddress" id="resultAddress" placeholder="Address result for Jira"></textarea>
+          <button id="copyAddress" onclick="copyAddress()">Copy</button>
+          <textarea name="resultBldgAt" id="resultBldgAt" placeholder="Building at ..."></textarea>
+          <button id="copyBldgAt" onclick="copyBldgAt()">Copy</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div id="myfooter">
+      <label id="copyRight">&copy; Mykhailo Semernin, 2021-</label>
+    </div>
+  </footer>
+</body>
+
+<!-- Drag and Drop - start -->
+<script>
+  window.onload = function () {
+    initialText = document.getElementById("initialText");
+    initialText.ondragenter = ignoreDrag;
+    initialText.ondragover = ignoreDrag;
+    initialText.ondrop = drop;
+    currYear();
+  }
+  function ignoreDrag(e) {
+    // Обеспечиваем, чтобы никто другой не получил это событие, 
+    // т.к. мы выполняем операцию перетаскивания
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  function drop(e) {
+    // Аннулируем это событие для всех других
+    e.stopPropagation();
+    e.preventDefault();
+
+    // Получаем перемещенные файлы
+    var data = e.dataTransfer;
+    var files = data.files;
+
+    // Передаем полученный файл функции для обработки файлов
+    processFiles(files);
+  }
+
+  function processFiles(files) {
+    try {
+      var file = files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        // Выводим изображение на initialText
+        var output = document.getElementById("initialText");
+        output.textContent = e.target.result;
+      };
+      // Начинаем считывать текстовый файл
+      reader.readAsText(file);
+    } catch (error) {
+      // console.error(error);
+    }
+  }
+  // <!-- Drag and Drop - end -->
+
+  //// parse Google Map opening hours:
+  function convertTo24Hour(time) {
+    // console.log("time:", time);
+    let hours = parseInt(time.match(/^(\d+)/));
+    let matchMinutes = (time.match(/:(\d+)/));
+    let minutes = (matchMinutes && matchMinutes[1] !== "00") ? matchMinutes[1] : 0;
+    // let minutes = matchMinutes ? matchMinutes[1] : 0;
+    const ampm = time.slice(-2);
+    if (ampm === "pm" && hours < 12) hours = hours + 12;
+    if (ampm === "am" && hours === 12) hours = hours - 12;
+    let sHours = hours.toString();
+    let sMinutes = minutes.toString();
+    if (hours < 10) sHours = "0" + sHours;
+    if (minutes < 10) sMinutes = "0" + sMinutes;
+    return sHours + ":" + sMinutes;
+  }
+
+  const parseGMHours = (hoursText) => {
+    console.log(hoursText);
+    let hoursTextArr = hoursText.split(";");
+    let resultFull = "";
+    let dayRegex = /^(mo|tu|we|th|fr|sa|su)/i;
+    let timeRegex = /\d+/;
+    // console.log("hoursTextArr", hoursTextArr);
+
+    for (let i = 0; i < hoursTextArr.length; i++) {
+      let shortDay = "";
+      let fullHours = [];
+      let textHours = hoursTextArr[i].trim().toLowerCase();
+      let hoursStrArr;
+
+      if (textHours.includes("open 24 hours")) {
+        shortDay = textHours.slice(0, 2);
+        let oneDayInfo = `${shortDay} ${["00:00-24:00"]}; `;
+        // console.log(oneDayInfo);
+        resultFull += oneDayInfo;
+      }
+
+      else if (dayRegex.test(textHours) && timeRegex.test(textHours)) {
+        shortDay = textHours.slice(0, 2);
+        let firstDigitInd = textHours.indexOf(textHours.match(/[0-9]/));
+        let lastDigitInd = Math.max(textHours.lastIndexOf("am"), textHours.lastIndexOf("pm")) + 2;
+        let hoursStr = textHours.slice(firstDigitInd, lastDigitInd);
+        let hoursStrArr = hoursStr.split(",");
+
+        hoursStrArr.forEach(hoursStr => {
+          let [startTimeFull, endTimeFull] = hoursStr.split("–");
+          let startTime = startTimeFull.replaceAll(" ", "").replaceAll("\u202F", "");
+          let endTime = endTimeFull.replaceAll(" ", "").replaceAll("\u202F", "");
+
+          if (/^[^a-zA-Z]*$/.test(startTime) && /[a-zA-Z]/.test(endTime)) { // если старт без букв
+            // if ( (endTime.match(/[a-zA-Z]+/)[0] === "pm") 
+            //     && (+(endTime.match(/^(\d+)/)[0]) > 12 || (+(endTime.match(/^(\d+)/)[0]) <= +(startTime.match(/^(\d+)/)[0])))) { 
+            //     startTime += "am";
+            // } 
+            // if ( (endTime.match(/[a-zA-Z]+/)[0] === "pm") && +(startTime.match(/^(\d+)/)[0]) === 12) {
+            //   startTime += "pm";
+            // }
+            // else {
+            startTime += endTime.match(/[a-zA-Z]+/)[0];
+            // }
+          }
+
+          let converted24StartTime = convertTo24Hour(startTime);
+          let converted24EndTime = convertTo24Hour(endTime);
+          let timePeriod = `${converted24StartTime}-${converted24EndTime}`;
+
+          fullHours.push(timePeriod);
+        }
+        );
+        // console.log("fullHours:", fullHours);
+        let oneDayInfo = `${shortDay} ${[...fullHours]}; `;
+        resultFull += oneDayInfo;
+      }
+    }
+
+    resultFull = resultFull.trim();
+    return resultFull;
+  }
+
+  let isAddress = false;
+  function printTextToResult() {
+    var initText = document.querySelector("textarea").value;
+    var output = document.getElementById("resultText");
+    var output2 = document.getElementById("resultAddress");
+    var output3 = document.getElementById("resultBldgAt");
+
+    //// для GM Hours:
+    let dayRegex = /^(mon|tue|wed|thu|fri|sat|sun)/i;
+    if (dayRegex.test(initText)) {
+      initText = initText.replaceAll("\t", "\n").replaceAll("\n\n", "; ").replaceAll("\n", ", ");
+      // console.log("&&initText:", initText);
+      let parsedHours = parseGMHours(initText);
+      output.innerHTML = parsedHours;
+    }
+
+    //// для .geojson:
+    else if (initText.includes("\"coordinates\"")) {
+      initText = initText.replace(/\s+/g, ''); //удалить все пробелы    g-везде(все вхождения)
+      initText = initText.replace(/,0.0|,0/g, ''); // удалить ,0 и ,0.0   g-везде(все вхождения)
+      var firstPos = initText.indexOf("[[[");
+      var lastPos = initText.lastIndexOf("]]]") + 3;
+      var cuttedText = initText.substring(firstPos, lastPos);
+      if (initText.includes("\"Polygon\"")) {
+        output.innerHTML = "{'coordinates': " + cuttedText + ",'type': 'Polygon'}";
+      }
+      else if (initText.includes("\"MultiPolygon\"")) {
+        output.innerHTML = "{'coordinates': " + cuttedText + ",'type': 'MultiPolygon'}";
+      }
+      else {
+        alert("Something incomprehensible has happened with .GeoJSON :/\nContact Misha S.");
+      }
+    }
+    //// для .kml:
+    else if (initText.includes("<coordinates>")) {
+      var firstPos = initText.indexOf("<coordinates>") + 13;
+      var lastPos = initText.lastIndexOf("</coordinates>");
+      var cuttedText = initText.substring(firstPos, lastPos);
+
+      if (cuttedText.includes(",0.0") | cuttedText.includes(",0")) {
+        cuttedText = cuttedText.replace(/\s+/g, ""); //удалить все пробелы    g-везде(все вхождения)
+        cuttedText = cuttedText.replace(/,0.0|,0/g, "],["); // заменить ,0 и ,0.0    g-везде(все вхождения)
+      }
+      else {
+        cuttedText = cuttedText.replace(/\s+/g, "],["); //заменить все пробелы    g-везде(все вхождения)
+      }
+
+      if (initText.includes("<Polygon>")) {
+        cuttedText = "{'coordinates': [[[" + cuttedText + "]]],'type': 'Polygon'}";
+      }
+      else if (initText.includes("<MultiPolygon>")) {
+        cuttedText = "{'coordinates': [[[" + cuttedText + "]]],'type': 'MultiPolygon'}";
+      }
+      else {
+        alert("Something incomprehensible has happened with .KML :/\nContact Misha S.");
+      }
+      cuttedText = cuttedText.replace(",[]", "");
+      output.innerHTML = cuttedText;
+    }
+    //// для адреса:
+    else if (/[A-Za-z]{2}\s\d+/.test(initText)) {
+      try {
+        isAddress = true;
+        var addresArray = initText.split(",");
+        var street = addresArray[0].trim();
+        var city = addresArray[1].trim();
+        var stateAndPostal = addresArray[2].trim();
+        var state = stateAndPostal.replace(/[^a-zа-я]+/gi, "");
+        var postal = stateAndPostal.replace(/[^\d]+/g, "");
+        // var cc = addresArray[3].replace(/[^A-ZА-Я]+/g, "").substring(0,2);
+        if (countryName.value === "USA") {
+          var cc = "US";
+          country = "United States";
+        }
+        else {
+          alert("Not United States")
+          return;
+        }
+        output.innerHTML = "{'cc': '" + cc + "',\n'city': '" + city + "',\n'country': '" + country + "',\n'formatted_address': '" + street + ", " + city + ", " + state + ", " + country + "',\n'formatted_city': '" + city + ", " + state + ", " + country + "',\n'postal_code': '" + postal + "',\n'state': '" + state + "',\n'street_address': '" + street + "'}";
+
+        if (addressNewOld.value === "New") {
+          output2.innerHTML = street + ", " + city + ", " + state + " " + postal;
+        }
+        if (addressNewOld.value === "Old") {
+          output2.innerHTML = street + ", " + city + ", " + postal + ", " + state;
+        }
+        output3.innerHTML = `Building at ${street}`;
+
+      } catch {
+        alert("Wrong format :(\nContact Misha S.");
+      }
+    }
+    else {
+      alert("Something went wrong :(\nContact Misha S.");
+    }
+    copyResult();
+  }
+
+  function copyResultAndGoToAnalitics() {
+    if (isAddress == false) {
+      var newWin = window.open("https://analytics.placer.team/admin/guru/complextasks/add/");
+    }
+    else {
+      var newWin = window.open("https://analytics.placer.team/admin/guru/complextasks/");
+    }
+  }
+
+  function clearAllText() {
+    // document.getElementById("initialText").innerHTML = "";
+    // document.getElementById("resultText").innerHTML = "";
+    // document.getElementById("resultAddress").innerHTML = "";
+    window.location.reload();
+  }
+
+  function copyResult() {
+    var copyText = document.getElementById("resultText");
+    copyText.select();
+    document.execCommand("copy");
+  }
+
+  function copyAddress() {
+    var copiedAddress = document.getElementById("resultAddress");
+    copiedAddress.select();
+    document.execCommand("copy");
+  }
+
+  function copyBldgAt() {
+    var copiedBldgAt = document.getElementById("resultBldgAt");
+    copiedBldgAt.select();
+    document.execCommand("copy");
+  }
+
+  function copy24on7() {
+    var resultText = document.getElementById("resultText");
+    resultText.innerHTML = "mo-su 00:00-24:00"
+    resultText.select();
+    document.execCommand("copy");
+  }
+
+  function currYear() {
+    document.getElementById('copyRight').innerHTML += new Date().getFullYear();
+  }
+</script>
+
+</html>
