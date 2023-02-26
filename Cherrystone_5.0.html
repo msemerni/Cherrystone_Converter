@@ -49,11 +49,18 @@
     }
 
     #mainLabel {
+      
       color: #b8bbbd;
-      font-size: 17px;
+      font-size: 18px;
       padding: 5px;
       text-align: center;
     }
+
+    @media (max-width: 925px) {
+      #mainLabel {
+        display: none;
+      }
+    };
 
     #initialText,
     #resultText,
