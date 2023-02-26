@@ -50,7 +50,7 @@
 
     #mainLabel {
       color: #b8bbbd;
-      font-size: 20px;
+      font-size: 17px;
       padding: 5px;
       text-align: center;
     }
@@ -64,17 +64,17 @@
     }
 
     #initialText {
-      margin: 10px;
+      margin: 7px 10px;
       float: left;
-      height: 420px;
+      height: 400px;
       width: 360px;
       border-color: black;
     }
 
     #resultText {
-      margin: 10px;
+      margin: 7px 10px;
       float: left;
-      height: 420px;
+      height: 400px;
       width: 360px;
       border-color: black;
     }
@@ -101,7 +101,7 @@
       font-size: 15px;
       height: 50px;
       width: 100px;
-      margin-top: 85px;
+      margin-top: 80px;
       border-radius: 10px;
     }
 
@@ -128,7 +128,7 @@
       font-size: 15px;
       height: 50px;
       width: 100px;
-      margin-top: 35px;
+      margin-top: 15px;
       border-radius: 10px;
     }
 
@@ -212,7 +212,6 @@
   </header>
   <main>
     <div class=mainDiv>
-      <div>
         <textarea id="initialText" placeholder="Initial Data" onchange="processFiles(this.files)"></textarea>
         <div id="myDiv">
           <label for="countryName" style="margin-left: 20px; color: white;">Country:</label><br />
@@ -242,7 +241,6 @@
           <textarea name="resultBldgAt" id="resultBldgAt" placeholder="Building at ..."></textarea>
           <button id="copyBldgAt" onclick="copyBldgAt()">Copy</button>
         </div>
-      </div>
     </div>
   </main>
   <footer>
